@@ -20,10 +20,15 @@ find_package(
     "/usr/local/lib/cmake/libmongocxx-3.0.1-rc0-pre/"
   NO_DEFAULT_PATH)
 
+find_package(CURL REQUIRED)
+
 add_executable(${PROJECT_NAME} main.cpp)
+
+message(STATUS "LIBBSONCXX_INCLUDE_DIRS: ${LIBBSONCXX_INCLUDE_DIRS}")
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBBSONCXX_INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} ${LIBBSONCXX_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${LIBMONGOCXX_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${CURL_LIBRARIES})
