@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.0.2)
 project(realty_parser VERSION 0.0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -pthread -pedantic -Wall")
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 find_package(
   libbsoncxx
@@ -22,9 +23,11 @@ find_package(
 
 find_package(CURL REQUIRED)
 
-add_executable(${PROJECT_NAME} main.cpp)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-message(STATUS "LIBBSONCXX_INCLUDE_DIRS: ${LIBBSONCXX_INCLUDE_DIRS}")
+add_subdirectory(feed)
+
+add_executable(${PROJECT_NAME} main.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBBSONCXX_INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
@@ -32,3 +35,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} ${LIBBSONCXX_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${LIBMONGOCXX_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${CURL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} feed)
