@@ -8,29 +8,6 @@
 
 namespace realty {
 
-std::unordered_set<std::string> required_elements =
-  {"yandex-­building-­id",
-   "price",
-   "value",
-   "currency",
-   "area",
-   "unit",
-   "living­-space",
-   "kitchen­-area",
-   "renovation",
-   "image",
-   "rooms",
-   "bathroom­-unit",
-   "floor",
-   "floors­-total",
-   "building-­type",
-   "building­-state",
-   "built­-year",
-   "ready­-quarter",
-   "building-­phase",
-   "building­-section",
-   "ceiling-­height"};
-
 static const size_t PARSE_FEED_BUFFER_SIZE = 4096;
 
 void parse_feed(const std::string& fname)
@@ -56,7 +33,7 @@ void parse_feed(const std::string& fname)
 feed_parser::feed_parser()
   : xmlpp::SaxParser()
 {
-  // Empty
+  std::locale::global(std::locale(""));
 }
 
 feed_parser::~feed_parser()
@@ -117,8 +94,7 @@ void feed_parser::on_end_element(const Glib::ustring& name)
     m_current_offer_node.reset();
     m_offer_root.reset();
     m_offset.clear();
-    std::cout << "on_end_element: " << name << std::endl << std::endl;
-    ::abort();
+    std::cout << "end offer" << std::endl << std::endl;
   }
   else if (m_current_offer_node != nullptr) {
     if ((m_current_offer_node->children().empty())
@@ -140,16 +116,6 @@ void feed_parser::on_characters(const Glib::ustring& text)
 {
   if (m_current_offer_node != nullptr) {
     m_current_offer_node->data(text);
-  }
-}
-
-void feed_parser::on_comment(const Glib::ustring& text)
-{
-  try {
-    std::cout << "on_comment(): " << text << std::endl;
-  }
-  catch (const Glib::ConvertError& e) {
-    std::cerr << "feed_parser::on_comment(): Exception caught while converting text for std::cout: " << e.what() << std::endl;
   }
 }
 
