@@ -8,7 +8,7 @@
 #include <thread>
 #include <vector>
 
-#include "feed/feed_parser.h"
+#include "feed/parser.h"
 
 using bsoncxx::builder::stream::document;
 using bsoncxx::builder::stream::open_document;
@@ -40,7 +40,7 @@ void download_file(const std::string& url, const std::string& fname)
     fclose(fp);
   }
 
-  realty::parse_feed(fname);
+  realty::feed::parse_feed(fname);
 }
 
 std::string get_str_value(

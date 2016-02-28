@@ -1,21 +1,22 @@
-#ifndef REALTY_PARSER_H
-#define REALTY_PARSER_H
+#ifndef REALTY_FEED_PARSER_H
+#define REALTY_FEED_PARSER_H
 
 #include <libxml++/libxml++.h>
 
-#include "offer_tree.h"
+#include "offer_node.h"
 
 namespace realty {
+namespace feed {
 
 void parse_feed(const std::string& fname);
 
 typedef std::function<void (offer_node_ptr&& offer)> fn_offer_callback;
 
-class feed_parser : public xmlpp::SaxParser
+class parser : public xmlpp::SaxParser
 {
 public:
-  feed_parser(fn_offer_callback&& offer_callback);
-  ~feed_parser() override {}
+  parser(fn_offer_callback&& offer_callback);
+  ~parser() override {}
 
 protected:
   void on_start_document() override {}
@@ -35,6 +36,7 @@ private:
   fn_offer_callback m_offer_callback;
 };
 
+} // namespace feed
 } // namespace realty
 
-#endif // REALTY_PARSER_H
+#endif // REALTY_FEED_PARSER_H

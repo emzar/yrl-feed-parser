@@ -1,4 +1,4 @@
-#include "feed_parser.h"
+#include "parser.h"
 
 #include <algorithm>
 #include <cstring>
@@ -8,6 +8,7 @@
 #include <unordered_set>
 
 namespace realty {
+namespace feed {
 
 static const size_t PARSE_FEED_BUFFER_SIZE = 4096;
 
@@ -22,7 +23,7 @@ void parse_feed(const std::string& fname)
 {
   std::ifstream ifs(fname);
   char buffer[PARSE_FEED_BUFFER_SIZE];
-  realty::feed_parser parser(std::move(test_offer_callback));
+  realty::feed::parser parser(std::move(test_offer_callback));
   parser.set_substitute_entities(true);
   do {
     std::memset(buffer, 0, PARSE_FEED_BUFFER_SIZE);
@@ -38,13 +39,13 @@ void parse_feed(const std::string& fname)
   while (ifs);
 }
 
-feed_parser::feed_parser(fn_offer_callback&& offer_callback)
+parser::parser(fn_offer_callback&& offer_callback)
   : xmlpp::SaxParser(), m_offer_callback(offer_callback)
 {
   std::locale::global(std::locale(""));
 }
 
-void feed_parser::on_start_element(
+void parser::on_start_element(
   const Glib::ustring& name, const AttributeList& attributes)
 {
   if (name == "offer") {
@@ -65,7 +66,7 @@ void feed_parser::on_start_element(
   }
 }
 
-void feed_parser::on_end_element(const Glib::ustring& name)
+void parser::on_end_element(const Glib::ustring& name)
 {
   if (name == "offer") {
     m_offer_callback(std::move(m_offer_root));
@@ -76,7 +77,7 @@ void feed_parser::on_end_element(const Glib::ustring& name)
   }
 }
 
-void feed_parser::on_characters(const Glib::ustring& text)
+void parser::on_characters(const Glib::ustring& text)
 {
   if ((m_current_offer_node != nullptr)
     && (m_current_offer_node->name() != "offer")) {
@@ -84,4 +85,5 @@ void feed_parser::on_characters(const Glib::ustring& text)
   }
 }
 
+} // namespace feed
 } // namespace realty

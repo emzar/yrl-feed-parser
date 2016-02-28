@@ -1,9 +1,9 @@
 #include "gtest/gtest.h"
 
-#include "feed_parser.h"
+#include "parser.h"
 
 TEST(feed_test, stub)
 {
-  realty::parse_feed("/tmp/novostrojkispb.xml");
+  realty::feed::parse_feed("/tmp/novostrojkispb.xml");
   FAIL() << "stub";
 }

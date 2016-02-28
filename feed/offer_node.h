@@ -1,10 +1,11 @@
-#ifndef REALTY_OFFER_TREE_H
-#define REALTY_OFFER_TREE_H
+#ifndef REALTY_FEED_OFFER_NODE_H
+#define REALTY_FEED_OFFER_NODE_H
 
 #include <libxml++/libxml++.h>
 #include <list>
 
 namespace realty {
+namespace feed {
 
 class offer_node;
 
@@ -33,6 +34,7 @@ private:
   Glib::ustring m_data;
 };
 
+} // namespace feed
 } // namespace realty
 
-#endif // REALTY_OFFER_TREE_H
+#endif // REALTY_FEED_OFFER_NODE_H

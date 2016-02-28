@@ -6,7 +6,7 @@ find_package(LibXML++ REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-add_library(${PROJECT_NAME} feed_parser.cpp offer_tree.cpp)
+add_library(${PROJECT_NAME} feed.cpp offer_node.cpp parser.cpp)
 target_include_directories(${PROJECT_NAME} PUBLIC ${LibXML++_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LibXML++_LIBRARIES})
 

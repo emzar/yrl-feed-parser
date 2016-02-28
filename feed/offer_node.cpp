@@ -1,8 +1,9 @@
-#include "offer_tree.h"
+#include "offer_node.h"
 
 #include <iostream>
 
 namespace realty {
+namespace feed {
 
 void offer_node::add_child(offer_node_ptr node)
 {
@@ -10,4 +11,5 @@ void offer_node::add_child(offer_node_ptr node)
   m_children.push_back(node);
 }
 
+} // namespace feed
 } // namespace realty
