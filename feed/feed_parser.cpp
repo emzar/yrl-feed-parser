@@ -78,7 +78,7 @@ void feed_parser::on_start_element(
   const Glib::ustring& name, const AttributeList& attributes)
 {
   if (name == "offer") {
-    std::cout << "on_start_element: " << name << " (";
+    std::cout << name << " (";
     for (const auto& attr_pair : attributes) {
       try {
         std::cout << attr_pair.name;
@@ -94,25 +94,49 @@ void feed_parser::on_start_element(
         std::cerr << "feed_parser::on_start_element(): Exception caught while converting value for std::cout: " << e.what() << std::endl;
       }
     }
+
+    m_offer_root = std::make_shared<offer_node>();
+    m_offer_root->name(name);
+    m_current_offer_node = m_offer_root;
+    m_offset = "  ";
   }
-  else if (required_elements.find(name) == required_elements.end()) {
-    std::cout << "  ignore " << name << std::endl;
+  else if (m_current_offer_node != nullptr) {
+    //std::cout << "on_start_element: m_current_offer_node: " << m_offset << m_current_offer_node->name() << std::endl;
+    offer_node_ptr new_node = std::make_shared<offer_node>();
+    new_node->name(name);
+    m_current_offer_node->add_child(new_node);
+    m_current_offer_node = new_node;
+    std::cout << "on_start_element: " << m_offset << m_current_offer_node->name() << std::endl;
+    m_offset += "  ";
   }
 }
 
 void feed_parser::on_end_element(const Glib::ustring& name)
 {
-  if (name == "offer") std::cout << "on_end_element: " << name << std::endl;
+  if (name == "offer") {
+    // TODO: add offer callback
+    m_current_offer_node.reset();
+    m_offer_root.reset();
+    m_offset.clear();
+    std::cout << "on_end_element: " << name << std::endl << std::endl;
+    ::abort();
+  }
+  else if (m_current_offer_node != nullptr) {
+    /*std::cout << m_offset << m_current_offer_node->name();
+    if (!m_current_offer_node->data().empty()) {
+      std::cout << ": " << m_current_offer_node->data();
+    }
+    std::cout << std::endl;*/
+    m_current_offer_node = m_current_offer_node->parent();
+    m_offset.erase(m_offset.end() - 2, m_offset.end());
+  }
 }
 
 void feed_parser::on_characters(const Glib::ustring& text)
 {
-  /*try {
-    std::cout << "on_characters(): " << text << std::endl;
+  if (m_current_offer_node != nullptr) {
+    m_current_offer_node->data(text);
   }
-  catch (const Glib::ConvertError& e) {
-    std::cerr << "feed_parser::on_characters(): Exception caught while converting text for std::cout: " << e.what() << std::endl;
-  }*/
 }
 
 void feed_parser::on_comment(const Glib::ustring& text)

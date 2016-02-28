@@ -3,6 +3,8 @@
 
 #include <libxml++/libxml++.h>
 
+#include "offer_tree.h"
+
 namespace realty {
 
 void parse_feed(const std::string& fname);
@@ -25,6 +27,12 @@ protected:
   void on_warning(const Glib::ustring& text) override;
   void on_error(const Glib::ustring& text) override;
   void on_fatal_error(const Glib::ustring& text) override;
+
+private:
+  offer_node_ptr m_offer_root;
+  offer_node_ptr m_current_offer_node;
+
+  std::string m_offset;
 };
 
 } // namespace realty
