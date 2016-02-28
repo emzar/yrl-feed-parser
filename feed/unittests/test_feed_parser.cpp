@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "feed.h"
+#include "feed/feed.h"
 
 void test_offer_callback(realty::feed::offer_node_ptr&& offer)
 {
@@ -16,8 +16,8 @@ void test_offer_callback(realty::feed::offer_node_ptr&& offer)
 
 TEST(feed_test, url)
 {
-  realty::feed::parse_feed_url(
+  /*realty::feed::parse_feed_url(
     "http://panfile.nichost.ru/reklama/novostrojkispb.xml",
-    test_offer_callback);
+    test_offer_callback);*/
   FAIL() << "stub";
 }
