@@ -12,7 +12,12 @@ find_package(GTest REQUIRED)
 find_package(LibXML++ REQUIRED)
 find_package(CURL REQUIRED)
 
-add_library(${PROJECT_NAME} feed/feed.cpp feed/offer_node.cpp feed/parser.cpp)
+add_library(
+  ${PROJECT_NAME}
+  feed/bson.cpp
+  feed/feed.cpp
+  feed/offer_node.cpp
+  feed/parser.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LibXML++_INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CURL_INCLUDE_DIRS})
