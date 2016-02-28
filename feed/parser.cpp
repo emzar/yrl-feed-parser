@@ -1,11 +1,6 @@
 #include "parser.h"
 
 #include <algorithm>
-#include <cstring>
-#include <fstream>
-#include <glibmm/convert.h>
-#include <iostream>
-#include <unordered_set>
 
 namespace realty {
 namespace feed {

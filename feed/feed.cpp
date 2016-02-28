@@ -3,7 +3,6 @@
 #include <cstring>
 #include <curl/curl.h>
 #include <fstream>
-#include <iostream>
 
 namespace realty {
 namespace feed {
@@ -22,7 +21,6 @@ size_t parse_data(
 void parse_feed_url(
   const std::string& url, fn_offer_callback&& offer_callback)
 {
-  std::cout << "  url: " << url << std::endl;
   realty::feed::parser parser(std::move(offer_callback));
   parser.set_substitute_entities(true);
   CURL* curl = curl_easy_init();

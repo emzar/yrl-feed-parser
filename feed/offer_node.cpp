@@ -1,7 +1,5 @@
 #include "offer_node.h"
 
-#include <iostream>
-
 namespace realty {
 namespace feed {
 
