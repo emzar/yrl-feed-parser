@@ -35,7 +35,7 @@ void parser::on_start_element(
 void parser::on_end_element(const Glib::ustring& name)
 {
   if (name == "offer") {
-    m_offer_callback(std::move(m_offer_root));
+    m_offer_callback(std::move(*m_offer_root));
     m_current_offer_node.reset();
   }
   else if (m_current_offer_node != nullptr) {

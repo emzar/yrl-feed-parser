@@ -8,7 +8,7 @@
 namespace realty {
 namespace feed {
 
-typedef std::function<void (offer_node_ptr&& offer)> fn_offer_callback;
+typedef std::function<void (offer_node&& offer)> fn_offer_callback;
 
 class parser : public xmlpp::SaxParser
 {
