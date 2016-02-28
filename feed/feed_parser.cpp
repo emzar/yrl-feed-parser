@@ -1,5 +1,6 @@
 #include "feed_parser.h"
 
+#include <algorithm>
 #include <cstring>
 #include <fstream>
 #include <glibmm/convert.h>
@@ -46,39 +47,18 @@ feed_parser::~feed_parser()
   // Empty
 }
 
-void feed_parser::on_start_document()
-{
-  std::cout << "on_start_document" << std::endl;
-}
-
-void feed_parser::on_end_document()
-{
-  std::cout << "on_end_document" << std::endl;
-}
-
 void feed_parser::on_start_element(
   const Glib::ustring& name, const AttributeList& attributes)
 {
   if (name == "offer") {
-    std::cout << name << " (";
-    for (const auto& attr_pair : attributes) {
-      try {
-        std::cout << attr_pair.name;
-      }
-      catch (const Glib::ConvertError& e) {
-        std::cerr << "feed_parser::on_start_element(): Exception caught while converting name for std::cout: " << e.what() << std::endl;
-      }
-
-      try {
-        std::cout << " = " <<  attr_pair.value << ")";
-      }
-      catch (const Glib::ConvertError& e) {
-        std::cerr << "feed_parser::on_start_element(): Exception caught while converting value for std::cout: " << e.what() << std::endl;
-      }
-    }
-
+    std::cout << name;
     m_offer_root = std::make_shared<offer_node>();
     m_offer_root->name(name);
+    AttributeList::const_iterator attr = std::find_if(
+      attributes.begin(), attributes.end(),
+      [](AttributeList::const_reference attr)
+      { return (attr.name == "internal-id");});
+    m_offer_root->data(attr->value);
     m_current_offer_node = m_offer_root;
   }
   else if (m_current_offer_node != nullptr) {

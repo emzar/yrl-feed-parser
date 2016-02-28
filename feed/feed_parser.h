@@ -18,8 +18,8 @@ public:
   ~feed_parser() override;
 
 protected:
-  void on_start_document() override;
-  void on_end_document() override;
+  void on_start_document() override {}
+  void on_end_document() override {}
   void on_start_element(
     const Glib::ustring& name, const AttributeList& properties) override;
   void on_end_element(const Glib::ustring& name) override;
