@@ -88,7 +88,7 @@ void feed_parser::on_start_element(
       }
 
       try {
-        std::cout << " = " <<  attr_pair.value << ")" << std::endl;
+        std::cout << " = " <<  attr_pair.value << ")";
       }
       catch (const Glib::ConvertError& e) {
         std::cerr << "feed_parser::on_start_element(): Exception caught while converting value for std::cout: " << e.what() << std::endl;
@@ -98,16 +98,15 @@ void feed_parser::on_start_element(
     m_offer_root = std::make_shared<offer_node>();
     m_offer_root->name(name);
     m_current_offer_node = m_offer_root;
-    m_offset = "  ";
   }
   else if (m_current_offer_node != nullptr) {
-    //std::cout << "on_start_element: m_current_offer_node: " << m_offset << m_current_offer_node->name() << std::endl;
+    if (m_current_offer_node->children().empty()) std::cout << std::endl;
     offer_node_ptr new_node = std::make_shared<offer_node>();
     new_node->name(name);
     m_current_offer_node->add_child(new_node);
     m_current_offer_node = new_node;
-    std::cout << "on_start_element: " << m_offset << m_current_offer_node->name() << std::endl;
     m_offset += "  ";
+    std::cout << m_offset << m_current_offer_node->name();
   }
 }
 
@@ -122,11 +121,16 @@ void feed_parser::on_end_element(const Glib::ustring& name)
     ::abort();
   }
   else if (m_current_offer_node != nullptr) {
-    /*std::cout << m_offset << m_current_offer_node->name();
-    if (!m_current_offer_node->data().empty()) {
-      std::cout << ": " << m_current_offer_node->data();
+    if ((m_current_offer_node->children().empty())
+      && (!m_current_offer_node->data().empty())) {
+      try {
+        std::cout << ": " << m_current_offer_node->data();
+      }
+      catch (const Glib::ConvertError& e) {
+        std::cout << "unable to convert data: " << e.what();
+      }
+      std::cout << std::endl;
     }
-    std::cout << std::endl;*/
     m_current_offer_node = m_current_offer_node->parent();
     m_offset.erase(m_offset.end() - 2, m_offset.end());
   }
