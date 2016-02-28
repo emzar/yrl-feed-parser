@@ -10,35 +10,6 @@
 namespace realty {
 namespace feed {
 
-static const size_t PARSE_FEED_BUFFER_SIZE = 4096;
-
-int i = 0;
-
-void test_offer_callback(offer_node_ptr&& offer)
-{
-  std::cout << "test_offer_callback: " << offer->data() << " i: " << i++ << std::endl;
-}
-
-void parse_feed(const std::string& fname)
-{
-  std::ifstream ifs(fname);
-  char buffer[PARSE_FEED_BUFFER_SIZE];
-  realty::feed::parser parser(std::move(test_offer_callback));
-  parser.set_substitute_entities(true);
-  do {
-    std::memset(buffer, 0, PARSE_FEED_BUFFER_SIZE);
-    ifs.read(buffer, PARSE_FEED_BUFFER_SIZE - 1);
-    if (ifs.gcount()) {
-      // We use Glib::ustring::ustring(InputIterator begin, InputIterator end)
-      // instead of Glib::ustring::ustring( const char*, size_type ) because it
-      // expects the length of the string in characters, not in bytes.
-      Glib::ustring input(buffer, buffer + ifs.gcount());
-      parser.parse_chunk(input);
-    }
-  }
-  while (ifs);
-}
-
 parser::parser(fn_offer_callback&& offer_callback)
   : xmlpp::SaxParser(), m_offer_callback(offer_callback)
 {

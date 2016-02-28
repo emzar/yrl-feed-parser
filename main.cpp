@@ -8,7 +8,7 @@
 #include <thread>
 #include <vector>
 
-#include "feed/parser.h"
+#include "feed/feed.h"
 
 using bsoncxx::builder::stream::document;
 using bsoncxx::builder::stream::open_document;
@@ -21,6 +21,11 @@ size_t write_data(void* ptr, size_t size, size_t nmemb, FILE* stream)
 {
   size_t written = fwrite(ptr, size, nmemb, stream);
   return written;
+}
+
+void test_offer_callback(realty::feed::offer_node_ptr&& offer)
+{
+  std::cout << "test_offer_callback: " << offer->data() << std::endl;
 }
 
 void download_file(const std::string& url, const std::string& fname)
@@ -40,7 +45,7 @@ void download_file(const std::string& url, const std::string& fname)
     fclose(fp);
   }
 
-  realty::feed::parse_feed(fname);
+  realty::feed::parse_feed_file(fname, test_offer_callback);
 }
 
 std::string get_str_value(
