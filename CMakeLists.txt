@@ -11,6 +11,19 @@ enable_testing()
 find_package(GTest REQUIRED)
 find_package(LibXML++ REQUIRED)
 find_package(CURL REQUIRED)
+find_package(
+  libbsoncxx
+  REQUIRED
+  CONFIG
+    PATHS "/usr/local/lib/cmake/libbsoncxx-3.0.1-rc0-pre/"
+  NO_DEFAULT_PATH)
+
+find_package(
+  libmongocxx
+  REQUIRED
+  CONFIG
+    PATHS "/usr/local/lib/cmake/libmongocxx-3.0.1-rc0-pre/"
+  NO_DEFAULT_PATH)
 
 add_library(
   ${PROJECT_NAME}
@@ -21,9 +34,13 @@ add_library(
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LibXML++_INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CURL_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${LIBBSONCXX_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LibXML++_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CURL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBBSONCXX_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_LIBRARIES})
 
 configure_file(
   feed/unittests/test.xml "${PROJECT_BINARY_DIR}/test.xml" COPYONLY)
