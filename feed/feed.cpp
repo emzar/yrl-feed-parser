@@ -10,7 +10,7 @@ namespace feed {
 
 static const size_t PARSE_FEED_BUFFER_SIZE = 4096;
 
-size_t write_data(
+size_t parse_data(
   void* ptr, size_t size, size_t nmemb, realty::feed::parser* parser)
 {
   char* ptr_impl = static_cast<char*>(ptr);
@@ -28,7 +28,7 @@ void parse_feed_url(
   CURL* curl = curl_easy_init();
   if (curl != nullptr) {
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, parse_data);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &parser);
     curl_easy_perform(curl);
     curl_easy_cleanup(curl);
