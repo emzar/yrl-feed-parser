@@ -7,17 +7,8 @@ void test_offer_callback(realty::feed::offer_node_ptr&& offer)
   std::cout << "test_offer_callback: " << offer->data() << std::endl;
 }
 
-/*TEST(feed_test, stub)
+TEST(feed_test, parse_file)
 {
-  realty::feed::parse_feed_file(
-    "/tmp/novostrojkispb.xml", test_offer_callback);
-  FAIL() << "stub";
-}*/
-
-TEST(feed_test, url)
-{
-  /*realty::feed::parse_feed_url(
-    "http://panfile.nichost.ru/reklama/novostrojkispb.xml",
-    test_offer_callback);*/
-  FAIL() << "stub";
+  EXPECT_NO_THROW(
+    realty::feed::parse_feed_file("test1.xml", test_offer_callback));
 }

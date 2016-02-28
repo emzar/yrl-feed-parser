@@ -20,6 +20,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CURL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LibXML++_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CURL_LIBRARIES})
 
+configure_file(
+  feed/unittests/test.xml "${PROJECT_BINARY_DIR}/test.xml" COPYONLY)
+
 set(TEST_TARGET test_${PROJECT_NAME})
 
 add_executable(

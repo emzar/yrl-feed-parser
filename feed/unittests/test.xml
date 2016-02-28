@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<realty-feed xmlns="http://webmaster.yandex.ru/schemas/feed/realty/2010-06">
+  <generation-date>2016-02-28T08:32:13+03:00</generation-date>
+  <offer internal-id="2774">
+    <type>продажа</type>
+    <property-type>жилая</property-type>
+    <category>квартира</category>
+    <deal-status>прямая продажа</deal-status>
+    <creation-date>2012-08-01T06:10:49+03:00</creation-date>
+    <last-update-date>2016-02-26T10:39:00+03:00</last-update-date>
+    <expire-date>2016-04-13T08:32:13+03:00</expire-date>
+    <url>www.1-an.ru</url>
+    <location>
+      <country>Россия</country>
+      <sub-locality-name>Невский р-н</sub-locality-name>
+      <locality-name>Санкт-Петербург</locality-name>
+      <address>Русановская ул., д. 9, к. 1</address>
+      <latitude>59.863448376212200</latitude>
+      <longitude>30.503576878210300</longitude>
+      <metro>
+        <name>Ломоносовская</name>
+        <time-on-transport>10</time-on-transport>
+      </metro>
+    </location>
+    <sales-agent>
+      <phone>+7(812)426-14-89</phone>
+      <category>агентство</category>
+      <organization>Первое Агентство Недвижимости</organization>
+      <email>sokol@pan-spb.ru</email>
+      <url>www.1-an.ru</url>
+    </sales-agent>
+    <price>
+      <value>3833823</value>
+      <currency>RUR</currency>
+    </price>
+    <mortgage>true</mortgage>
+    <area>
+      <value>40.6</value>
+      <unit>кв. м</unit>
+    </area>
+    <living-space>
+      <value>17.78</value>
+      <unit>кв. м</unit>
+    </living-space>
+    <kitchen-space>
+      <value>9.90</value>
+      <unit>кв. м</unit>
+    </kitchen-space>
+    <renovation>без отделки</renovation>
+    <description>В продаже квартира в новом доме. Главным достоинством местоположения является развитая транспортная инфраструктура: на автомобиле до центра города можно добраться за 30 минут, до ближайших станций метро  «Ломоносовская» и «Пролетарская» за 15 минут на общественном транспорте. Дом построен по кирпично-моноличной технологии. Во дворе есть детсвие и спортивные площадки. Подробности по телефону.</description>
+    <new-flat>true</new-flat>
+    <rooms>1</rooms>
+    <bathroom-unit>совмещенный</bathroom-unit>
+    <floor>19</floor>
+    <floors-total>24</floors-total>
+    <building-type>Кирпично-монолитный</building-type>
+    <building-state>hand-over</building-state>
+    <built-year>2014</built-year>
+    <ready-quarter>1</ready-quarter>
+    <building-name>Ласточкино Гнездо</building-name>
+    <building-phase>1</building-phase>
+    <building-section>д. 9, к. 1</building-section>
+    <lift>true</lift>
+    <yandex-building-id>2508</yandex-building-id>
+    <ceiling-height>2.80</ceiling-height><image>http://panfile.nichost.ru/reklama/13e78da8e31bcb23b8e1ccae520d105b.jpg</image></offer>
+  <offer internal-id="4610">
+    <type>продажа</type>
+    <property-type>жилая</property-type>
+    <category>квартира</category>
+    <deal-status>прямая продажа</deal-status>
+    <creation-date>2012-08-29T01:59:50+03:00</creation-date>
+    <last-update-date>2016-02-26T07:30:50+03:00</last-update-date>
+    <expire-date>2016-04-13T08:32:14+03:00</expire-date>
+    <url>www.1-an.ru</url>
+    <location>
+      <country>Россия</country>
+      <region>Ленинградская область</region>
+      <district>Всеволожский</district>
+      <locality-name>Кудрово дер.</locality-name>
+      <address>Европейский пр., к. 2</address>
+      <latitude>59.903208399720000</latitude>
+      <longitude>30.515362339288900</longitude>
+      <metro>
+        <name>Улица Дыбенко</name>
+        <time-on-transport>5</time-on-transport>
+      </metro>
+    </location>
+    <sales-agent>
+      <phone>+7(812)426-14-89</phone>
+      <category>агентство</category>
+      <organization>Первое Агентство Недвижимости</organization>
+      <email>sokol@pan-spb.ru</email>
+      <url>www.1-an.ru</url>
+    </sales-agent>
+    <price>
+      <value>4911884</value>
+      <currency>RUR</currency>
+    </price>
+    <mortgage>true</mortgage>
+    <area>
+      <value>57.81</value>
+      <unit>кв. м</unit>
+    </area>
+    <living-space>
+      <value>31.48</value>
+      <unit>кв. м</unit>
+    </living-space>
+    <kitchen-space>
+      <value>9.37</value>
+      <unit>кв. м</unit>
+    </kitchen-space>
+    <renovation>под чистовую</renovation>
+    <description>Современный жилой комплекс «Весна» возводится в новом жилом районе Кудрово, недалеко от станции метро "Улица Дыбенко". Планируется  построить шесть домов из 22-25 этажей с использованием кирпично-монолитной технологии.
+
+Весь комплекс спроектирован по концепции «БК-Стандарт», которая предполагает оптимальное сочетание стоимости и потребительских качеств. Дома оборудованы современными бесшумными лифтами, отопительной системой с настройкой температуры, современными инженерными системами, оптоволоконной сетью, так же предусмотрено наличие консьержа.
+
+При поддержке администрации муниципального образования в новом районе Кудрово планируется построить новые школы, детские сады и спортивные сооружения. А покупки новоселы могут делать уже сейчас в торговом комплексе «МЕГА Дыбенко», где в 150 магазинах есть буквально все, от парфюмерии и одежды до бытовой техники и мебели.</description>
+    <new-flat>true</new-flat>
+    <rooms>2</rooms>
+    <bathroom-unit>совмещенный</bathroom-unit>
+    <floor>25</floor>
+    <floors-total>25</floors-total>
+    <building-type>Кирпично-монолитный</building-type>
+    <building-state>hand-over</building-state>
+    <built-year>2015</built-year>
+    <ready-quarter>4</ready-quarter>
+    <building-name>Весна</building-name>
+    <building-phase>1</building-phase>
+    <building-section>к. 2</building-section>
+    <lift>true</lift>
+    <yandex-building-id>51421</yandex-building-id>
+    <ceiling-height>2.63</ceiling-height><image>http://panfile.nichost.ru/reklama/0cd88d919720c32a5ef02d0c09986c38.jpg</image></offer>
+</realty-feed>
