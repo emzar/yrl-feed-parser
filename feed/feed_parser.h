@@ -15,7 +15,7 @@ class feed_parser : public xmlpp::SaxParser
 {
 public:
   feed_parser(fn_offer_callback&& offer_callback);
-  ~feed_parser() override;
+  ~feed_parser() override {}
 
 protected:
   void on_start_document() override {}
@@ -32,7 +32,6 @@ protected:
 private:
   offer_node_ptr m_offer_root;
   offer_node_ptr m_current_offer_node;
-  std::string m_offset;
   fn_offer_callback m_offer_callback;
 };
 

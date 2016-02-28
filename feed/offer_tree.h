@@ -3,7 +3,6 @@
 
 #include <libxml++/libxml++.h>
 #include <list>
-#include <memory>
 
 namespace realty {
 
