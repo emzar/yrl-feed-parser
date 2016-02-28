@@ -21,8 +21,6 @@ find_package(
     "/usr/local/lib/cmake/libmongocxx-3.0.1-rc0-pre/"
   NO_DEFAULT_PATH)
 
-find_package(CURL REQUIRED)
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_subdirectory(feed)
@@ -34,5 +32,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} ${LIBBSONCXX_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${LIBMONGOCXX_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} ${CURL_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} feed)

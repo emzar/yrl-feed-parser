@@ -1,7 +1,7 @@
 #ifndef REALTY_FEED_FEED_H
 #define REALTY_FEED_FEED_H
 
-#include "parser.h"
+#include "feed/parser.h"
 #include <istream>
 
 namespace realty {

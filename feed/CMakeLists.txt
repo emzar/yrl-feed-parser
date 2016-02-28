@@ -3,12 +3,18 @@ project(feed VERSION 0.0.1 LANGUAGES CXX)
 enable_testing()
 find_package(GTest REQUIRED)
 find_package(LibXML++ REQUIRED)
+find_package(CURL REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_library(${PROJECT_NAME} feed.cpp offer_node.cpp parser.cpp)
+
 target_include_directories(${PROJECT_NAME} PUBLIC ${LibXML++_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CURL_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ..)
+
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LibXML++_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${CURL_LIBRARIES})
 
 set(TEST_TARGET test_${PROJECT_NAME})
 

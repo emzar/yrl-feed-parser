@@ -3,7 +3,7 @@
 
 #include <libxml++/libxml++.h>
 
-#include "offer_node.h"
+#include "feed/offer_node.h"
 
 namespace realty {
 namespace feed {
