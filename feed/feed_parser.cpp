@@ -124,34 +124,4 @@ void feed_parser::on_characters(const Glib::ustring& text)
   }
 }
 
-void feed_parser::on_warning(const Glib::ustring& text)
-{
-  try {
-    std::cout << "on_warning(): " << text << std::endl;
-  }
-  catch (const Glib::ConvertError& e) {
-    std::cerr << "feed_parser::on_warning(): Exception caught while converting text for std::cout: " << e.what() << std::endl;
-  }
-}
-
-void feed_parser::on_error(const Glib::ustring& text)
-{
-  try {
-    std::cout << "on_error(): " << text << std::endl;
-  }
-  catch (const Glib::ConvertError& e) {
-    std::cerr << "feed_parser::on_error(): Exception caught while converting text for std::cout: " << e.what() << std::endl;
-  }
-}
-
-void feed_parser::on_fatal_error(const Glib::ustring& text)
-{
-  try {
-    std::cout << "on_fatal_error(): " << text << std::endl;
-  }
-  catch (const Glib::ConvertError& e) {
-    std::cerr << "feed_parser::on_characters(): Exception caught while converting value for std::cout: " << e.what() << std::endl;
-  }
-}
-
 } // namespace realty
