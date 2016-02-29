@@ -30,6 +30,7 @@ add_library(
   feed/bson.cpp
   feed/feed.cpp
   feed/offer_node.cpp
+  feed/offer_parser.cpp
   feed/parser.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LibXML++_INCLUDE_DIRS})

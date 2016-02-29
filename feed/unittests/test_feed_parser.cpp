@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "feed/feed.h"
-#include "feed/bson.h"
+#include "feed/offer_parser.h"
 
 void test_offer_callback(realty::feed::offer_node&& offer)
 {
@@ -18,6 +18,10 @@ void test_offer_callback(realty::feed::offer_node&& offer)
 
 TEST(feed_test, parse_file)
 {
-  EXPECT_NO_THROW(realty::feed::parse_feed_file("test.xml", realty::feed::to_bson));
-  FAIL();
+  try {
+    realty::feed::parse_feed_file("test.xml", realty::feed::parse_offer);
+  }
+  catch (const std::exception& e) {
+    FAIL() << e.what();
+  }
 }
