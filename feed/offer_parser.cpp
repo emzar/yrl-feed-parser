@@ -16,6 +16,10 @@
 #include <mongocxx/uri.hpp>
 
 using bsoncxx::builder::stream::document;
+using bsoncxx::builder::stream::open_document;
+using bsoncxx::builder::stream::close_document;
+using bsoncxx::builder::stream::open_array;
+using bsoncxx::builder::stream::close_array;
 using bsoncxx::builder::stream::finalize;
 
 namespace bt = boost::posix_time;
@@ -70,30 +74,27 @@ void check_elements(realty::feed::offer_node& offer)
   }
 }
 
+void parse_offer(realty::feed::offer_node& offer_node, document& doc_stream)
+{
+  if (offer_node.has_children()) {
+    doc_stream << offer_node.name() << open_document;
+    for (offer_children_type::const_reference child : offer_node.children()) {
+      parse_offer(*child.second, doc_stream);
+    }
+    doc_stream << close_document;
+  }
+  else {
+    doc_stream << offer_node.name() << offer_node.data();
+  }
+}
+
 } // anonymous namespace
 
 void parse_offer(realty::feed::offer_node&& offer)
 {
   check_elements(offer);
   document doc_stream = document{};
-  doc_stream << "yandex-building-id" << boost::lexical_cast<long int>(offer["yandex-building-id"].data());
-  doc_stream << "price" << boost::lexical_cast<long int>(offer["price"]["value"].data());
-  doc_stream << "area" << boost::lexical_cast<double>(offer["area"]["value"].data());
-  doc_stream << "living-space" << boost::lexical_cast<double>(offer["living-space"]["value"].data());
-  doc_stream << "kitchen-space" << boost::lexical_cast<double>(offer["kitchen-space"]["value"].data());
-  doc_stream << "renovation" << offer["renovation"].data();
-  doc_stream << "image" << offer["image"].data();
-  doc_stream << "rooms" << boost::lexical_cast<int>(offer["rooms"].data());
-  doc_stream << "bathroom-unit" << offer["bathroom-unit"].data();
-  doc_stream << "floor" << boost::lexical_cast<int>(offer["floor"].data());
-  doc_stream << "floors-total" << boost::lexical_cast<int>(offer["floors-total"].data());
-  doc_stream << "building-type" << offer["building-type"].data();
-  doc_stream << "building-state" << offer["building-state"].data();
-  doc_stream << "built-year" << boost::lexical_cast<int>(offer["built-year"].data());
-  doc_stream << "ready-quarter" << boost::lexical_cast<int>(offer["ready-quarter"].data());
-  doc_stream << "building-phase" << boost::lexical_cast<int>(offer["building-phase"].data());
-  doc_stream << "building-section" << offer["building-section"].data();
-  doc_stream << "ceiling-height" << boost::lexical_cast<double>(offer["ceiling-height"].data());
+  parse_offer(offer, doc_stream);
   bsoncxx::document::value doc = doc_stream << finalize;
   std::cout << bsoncxx::to_json(doc) << std::endl;
 

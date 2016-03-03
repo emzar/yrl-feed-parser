@@ -25,6 +25,7 @@ public:
   void name(const Glib::ustring& name) noexcept { m_name = name; }
   void data(const Glib::ustring& data) noexcept { m_data = data; }
   bool has_children() const noexcept { return !m_children.empty(); }
+  offer_children_type& children() noexcept { return m_children; };
   offer_node& operator[] (const std::string& child_name) { return *m_children[child_name]; }
   offer_node& operator[] (std::string&& child_name) { return *m_children[child_name]; }
   operator const Glib::ustring& () const { return m_data; }
