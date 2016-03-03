@@ -11,7 +11,7 @@ enable_testing()
 find_package(GTest REQUIRED)
 find_package(LibXML++ REQUIRED)
 find_package(CURL REQUIRED)
-find_package(Boost REQUIRED COMPONENTS date_time)
+find_package(Boost REQUIRED)
 
 find_package(
   libbsoncxx
@@ -42,7 +42,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LibXML++_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CURL_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${Boost_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBBSONCXX_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_LIBRARIES})
 

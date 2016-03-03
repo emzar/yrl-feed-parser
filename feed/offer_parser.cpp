@@ -1,7 +1,5 @@
 #include "offer_parser.h"
 
-#include <algorithm>
-#include <boost/date_time.hpp>
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 
@@ -15,7 +13,6 @@
 
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
-namespace bt = boost::posix_time;
 
 using bsoncxx::builder::stream::document;
 using bsoncxx::builder::stream::open_document;
@@ -26,23 +23,6 @@ namespace realty {
 namespace feed {
 
 namespace {
-
-static const auto format = std::locale(
-  std::locale::classic(), new bt::time_input_facet("%Y-%m-%dT%H:%M:%S"));
-
-bool is_expired(realty::feed::offer_node& offer)
-{
-  /*std::istringstream is(offer["expire-date"].data().raw());
-  is.imbue(format);
-  bt::ptime expire_date;
-  is >> expire_date;
-  bt::ptime now = bt::second_clock::local_time();
-  std::cout << "expire_date: " << expire_date << std::endl;
-  std::cout << "now:         " << now << std::endl;
-  std::cout << "expired:     " << (now > expire_date) << std::endl;
-  return (now > expire_date);*/
-  return true;
-}
 
 template<typename T>
 bool try_add(offer_node& node, document& doc_stream)
@@ -59,17 +39,18 @@ bool try_add(offer_node& node, document& doc_stream)
 void parse_offer(offer_node& node, document& doc_stream)
 {
   if (node.has_children()) {
-    doc_stream << node.name() << open_document;
+    if (node.name() != "offer") doc_stream << node.name() << open_document;
     for (offer_children_type::const_reference child : node.children()) {
       parse_offer(*child, doc_stream);
     }
-    doc_stream << close_document;
+    if (node.name() != "offer") doc_stream << close_document;
+    return;
   }
-  else {
-    if (try_add<long int>(node, doc_stream)) return;
-    if (try_add<double>(node, doc_stream)) return;
-    doc_stream << node.name() << node.data();
-  }
+  if (try_add<long int>(node, doc_stream)) return;
+  if (try_add<double>(node, doc_stream)) return;
+  if (node.data() == "true") doc_stream << node.name() << true;
+  else if (node.data() == "false") doc_stream << node.name() << false;
+  else doc_stream << node.name() << node.data();
 }
 
 } // anonymous namespace

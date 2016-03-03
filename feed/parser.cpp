@@ -21,7 +21,12 @@ void parser::on_start_element(
       attributes.begin(), attributes.end(),
       [](AttributeList::const_reference attr)
       { return (attr.name == "internal-id");});
-    m_offer_root->data(attr->value);
+    if (attr != attributes.end()) {
+      offer_node_ptr internal_id = std::make_shared<offer_node>();
+      internal_id->name(attr->name);
+      internal_id->data(attr->value);
+      m_offer_root->add_child(internal_id);
+    }
     m_current_offer_node = m_offer_root;
   }
   else if (m_current_offer_node != nullptr) {
