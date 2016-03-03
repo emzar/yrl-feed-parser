@@ -2,7 +2,7 @@
 #define REALTY_FEED_OFFER_NODE_H
 
 #include <libxml++/libxml++.h>
-#include <unordered_map>
+#include <list>
 
 namespace realty {
 namespace feed {
@@ -11,7 +11,7 @@ class offer_node;
 
 typedef std::shared_ptr<offer_node> offer_node_ptr;
 typedef std::weak_ptr<offer_node> offer_node_weak_ptr;
-typedef std::unordered_map<std::string, offer_node_ptr> offer_children_type;
+typedef std::list<offer_node_ptr> offer_children_type;
 
 class offer_node : public std::enable_shared_from_this<offer_node>
 {
@@ -26,9 +26,6 @@ public:
   void data(const Glib::ustring& data) noexcept { m_data = data; }
   bool has_children() const noexcept { return !m_children.empty(); }
   offer_children_type& children() noexcept { return m_children; };
-  offer_node& operator[] (const std::string& child_name) { return *m_children[child_name]; }
-  offer_node& operator[] (std::string&& child_name) { return *m_children[child_name]; }
-  operator const Glib::ustring& () const { return m_data; }
 
 private:
   offer_node_weak_ptr m_parent;

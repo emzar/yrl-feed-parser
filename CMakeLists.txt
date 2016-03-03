@@ -29,7 +29,6 @@ find_package(
 
 add_library(
   ${PROJECT_NAME}
-  feed/bson.cpp
   feed/feed.cpp
   feed/offer_node.cpp
   feed/offer_parser.cpp
