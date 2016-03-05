@@ -1,4 +1,4 @@
-project(yrl_feed_parser VERSION 0.0.1 LANGUAGES CXX)
+project(yrl_feed_parser LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(PREFIX_3PP ${CMAKE_SOURCE_DIR}/3pp)
