@@ -59,7 +59,6 @@ void parse_offer(offer_node&& offer, mongocxx::database& db)
   document doc_stream = document{};
   parse_offer(offer, doc_stream);
   bsoncxx::document::value offer_doc = doc_stream << finalize;
-  std::cout << bsoncxx::to_json(offer_doc) << std::endl;
   auto res = db["offers"].insert_one(std::move(offer_doc));
 }
 
