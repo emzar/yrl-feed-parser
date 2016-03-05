@@ -34,9 +34,7 @@ int main(int, char**)
   mongocxx::instance inst{};
   mongocxx::client conn{mongocxx::uri{}};
   auto db = conn["realty"];
-
-  // remove all offers
-  db["offers"].delete_many({});
+  db["offers"].drop();
 
   bsoncxx::builder::stream::document filter_builder;
   filter_builder << "$and"
