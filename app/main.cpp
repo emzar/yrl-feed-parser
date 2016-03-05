@@ -57,7 +57,7 @@ int main(int, char**)
     auto download_filename = "/tmp/agency_" + identifier;
     auto feed_url = get_str_value(doc, "feed_url");
     workers.push_back(std::thread(
-      realty::feed::parse_feed_url, std::move(feed_url),
+      realty::feed::parse_feed_url, std::move(feed_url), std::cref(identifier),
       std::bind(realty::feed::parse_offer, _1, std::ref(db))));
   }
 

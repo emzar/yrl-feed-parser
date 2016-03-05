@@ -19,9 +19,9 @@ size_t parse_data(
 }
 
 void parse_feed_url(
-  const std::string& url, fn_offer_callback&& offer_callback)
+  const std::string& url, const std::string& feed_id, fn_offer_callback&& offer_callback)
 {
-  realty::feed::parser parser(std::move(offer_callback));
+  realty::feed::parser parser(std::move(offer_callback), feed_id);
   parser.set_substitute_entities(true);
   CURL* curl = curl_easy_init();
   if (curl != nullptr) {

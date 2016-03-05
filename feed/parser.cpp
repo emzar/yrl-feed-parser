@@ -1,12 +1,13 @@
 #include "parser.h"
 
 #include <algorithm>
+#include <boost/lexical_cast.hpp>
 
 namespace realty {
 namespace feed {
 
-parser::parser(fn_offer_callback&& offer_callback)
-  : xmlpp::SaxParser(), m_offer_callback(offer_callback)
+parser::parser(fn_offer_callback&& offer_callback, const std::string& feed_id)
+  : xmlpp::SaxParser(), m_offer_callback(offer_callback), m_feed_id(feed_id)
 {
   std::locale::global(std::locale(""));
 }
@@ -27,6 +28,12 @@ void parser::on_start_element(
       internal_id->data(attr->value);
       m_offer_root->add_child(internal_id);
     }
+
+    offer_node_ptr feed_id = std::make_shared<offer_node>();
+    feed_id->name("feed_id");
+    feed_id->data(Glib::ustring(m_feed_id));
+    m_offer_root->add_child(feed_id);
+
     m_current_offer_node = m_offer_root;
   }
   else if (m_current_offer_node != nullptr) {
