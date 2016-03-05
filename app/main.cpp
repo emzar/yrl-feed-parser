@@ -34,10 +34,11 @@ int main(int, char**)
   mongocxx::instance inst{};
   mongocxx::client conn{mongocxx::uri{}};
   auto db = conn["realty"];
-  auto agents = db["agents"];
+
+  // remove all offers
+  db["offers"].delete_many({});
 
   bsoncxx::builder::stream::document filter_builder;
-
   filter_builder << "$and"
     << open_array
     << open_document
@@ -46,10 +47,10 @@ int main(int, char**)
     << open_document << "ignore_feed" << false << close_document
     << close_array;
 
-  std::cout << "main id: 0x" << std::hex << std::this_thread::get_id() << std::endl;
   curl_global_init(CURL_GLOBAL_ALL);
-  std::vector<std::thread> workers;
+  auto agents = db["agents"];
   auto cursor = agents.find(filter_builder.view());
+  std::vector<std::thread> workers;
   for (auto&& doc : cursor) {
     //std::cout << bsoncxx::to_json(doc) << std::endl;
     auto identifier = get_str_value(doc, "identifier");
