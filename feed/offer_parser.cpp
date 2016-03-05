@@ -21,10 +21,10 @@ namespace feed {
 namespace {
 
 template<typename T>
-bool try_add(offer_node& node, document& doc_stream)
+bool try_add(const std::string& name, offer_node& node, document& doc_stream)
 {
   try {
-    doc_stream << node.name() << lexical_cast<T>(node.data());
+    doc_stream << name << lexical_cast<T>(node.data());
   }
   catch (const bad_lexical_cast&) {
     return false;
@@ -34,19 +34,22 @@ bool try_add(offer_node& node, document& doc_stream)
 
 void parse_offer(offer_node& node, document& doc_stream)
 {
+  std::string name = node.name().raw();
+  std::replace(name.begin(), name.end(), '-', '_');
+
   if (node.has_children()) {
-    if (node.name() != "offer") doc_stream << node.name() << open_document;
+    if (node.name() != "offer") doc_stream << name << open_document;
     for (offer_children_type::const_reference child : node.children()) {
       parse_offer(*child, doc_stream);
     }
     if (node.name() != "offer") doc_stream << close_document;
     return;
   }
-  if (try_add<long int>(node, doc_stream)) return;
-  if (try_add<double>(node, doc_stream)) return;
-  if (node.data() == "true") doc_stream << node.name() << true;
-  else if (node.data() == "false") doc_stream << node.name() << false;
-  else doc_stream << node.name() << node.data();
+  if (try_add<long int>(name, node, doc_stream)) return;
+  if (try_add<double>(name, node, doc_stream)) return;
+  if (node.data() == "true") doc_stream << name << true;
+  else if (node.data() == "false") doc_stream << name << false;
+  else doc_stream << name << node.data();
 }
 
 } // anonymous namespace
@@ -57,8 +60,8 @@ void parse_offer(offer_node&& offer, mongocxx::database& db)
   parse_offer(offer, doc_stream);
   bsoncxx::document::value offer_doc = doc_stream << finalize;
   std::cout << bsoncxx::to_json(offer_doc) << std::endl;
-  auto res = db["offers"].insert_one(std::move(offer_doc));
   throw std::exception();
+  auto res = db["offers"].insert_one(std::move(offer_doc));
 }
 
 } // namespace feed
