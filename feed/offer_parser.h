@@ -3,10 +3,15 @@
 
 #include "feed/offer_node.h"
 
+#include <mongocxx/client.hpp>
+#include <mongocxx/instance.hpp>
+#include <mongocxx/uri.hpp>
+
 namespace realty {
 namespace feed {
 
-void parse_offer(realty::feed::offer_node&& offer);
+void parse_offer(
+  offer_node&& offer, mongocxx::database& db);
 
 } // namespace feed
 } // namespace realty

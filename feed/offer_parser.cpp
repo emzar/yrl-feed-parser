@@ -7,10 +7,6 @@
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/types.hpp>
 
-#include <mongocxx/client.hpp>
-#include <mongocxx/instance.hpp>
-#include <mongocxx/uri.hpp>
-
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
 
@@ -55,13 +51,13 @@ void parse_offer(offer_node& node, document& doc_stream)
 
 } // anonymous namespace
 
-void parse_offer(offer_node&& offer)
+void parse_offer(offer_node&& offer, mongocxx::database& db)
 {
   document doc_stream = document{};
   parse_offer(offer, doc_stream);
-  bsoncxx::document::value doc = doc_stream << finalize;
-  std::cout << bsoncxx::to_json(doc) << std::endl;
-
+  bsoncxx::document::value offer_doc = doc_stream << finalize;
+  std::cout << bsoncxx::to_json(offer_doc) << std::endl;
+  auto res = db["offers"].insert_one(std::move(offer_doc));
   throw std::exception();
 }
 
