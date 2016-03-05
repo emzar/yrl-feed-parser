@@ -45,7 +45,7 @@ void parse_offer(offer_node& node, document& doc_stream)
     if (node.name() != "offer") doc_stream << close_document;
     return;
   }
-  if (try_add<long int>(name, node, doc_stream)) return;
+  if (try_add<int>(name, node, doc_stream)) return;
   if (try_add<double>(name, node, doc_stream)) return;
   if (node.data() == "true") doc_stream << name << true;
   else if (node.data() == "false") doc_stream << name << false;
@@ -60,7 +60,6 @@ void parse_offer(offer_node&& offer, mongocxx::database& db)
   parse_offer(offer, doc_stream);
   bsoncxx::document::value offer_doc = doc_stream << finalize;
   std::cout << bsoncxx::to_json(offer_doc) << std::endl;
-  throw std::exception();
   auto res = db["offers"].insert_one(std::move(offer_doc));
 }
 
