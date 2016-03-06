@@ -34,9 +34,7 @@ int main(int, char**)
   mongocxx::instance inst{};
   mongocxx::client conn{mongocxx::uri{}};
   auto db = conn["realty"];
-  std::cout << "dropping\n";
   db["offers"].drop();
-  std::cout << "dropped\n";
 
   bsoncxx::builder::stream::document filter_builder;
   filter_builder << "$and"
