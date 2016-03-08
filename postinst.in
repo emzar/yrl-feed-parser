@@ -1,0 +1,5 @@
+#!/bin/sh
+
+touch /etc/ld.so.conf.d/@PROJECT_NAME@-x86_64.conf
+echo "@CPACK_PACKAGING_INSTALL_PREFIX@/lib" > /etc/ld.so.conf.d/@PROJECT_NAME@-x86_64.conf
+/sbin/ldconfig

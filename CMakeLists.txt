@@ -3,8 +3,24 @@ cmake_minimum_required(VERSION 3.0.2)
 project(yrl VERSION 0.0.1 LANGUAGES CXX)
 
 set(BUILD_SHARED_LIBS ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -pthread -pedantic -Wall")
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
+set(CPACK_PACKAGE_CONTACT "Ivan Mironov")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "YRL feed parser")
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
+set(CPACK_OUTPUT_FILE_PREFIX ${CMAKE_SOURCE_DIR})
+set(CPACK_PACKAGING_INSTALL_PREFIX "/opt/yrl")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libxml++2.6-2 (>= 2.36.0), libcurl3 (>=7.35.0)")
+
+configure_file(${CMAKE_SOURCE_DIR}/postinst.in "${PROJECT_BINARY_DIR}/postinst" @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/prerm.in "${PROJECT_BINARY_DIR}/prerm" @ONLY)
+set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${PROJECT_BINARY_DIR}/postinst;${CMAKE_CURRENT_SOURCE_DIR}/prerm")
+
 add_subdirectory(feed)
 add_subdirectory(app)
+
+include(CPack)

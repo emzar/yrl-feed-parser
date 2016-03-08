@@ -7,3 +7,5 @@ add_executable(
   main.cpp)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC yrl_feed_parser)
+
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)

@@ -60,6 +60,9 @@ target_link_libraries(${PROJECT_NAME} PUBLIC 3pp::mongoc)
 target_link_libraries(${PROJECT_NAME} PUBLIC 3pp::bsoncxx)
 target_link_libraries(${PROJECT_NAME} PUBLIC 3pp::mongocxx)
 
+install(DIRECTORY 3pp/lib DESTINATION .)
+install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib)
+
 configure_file(
   unittests/test.xml "${PROJECT_BINARY_DIR}/test.xml" COPYONLY)
 

@@ -5,16 +5,15 @@
 
 using namespace std::placeholders;
 
+void test_cb(realty::feed::offer_node&&)
+{
+  // Empty
+}
+
 TEST(feed_test, parse_file)
 {
   try {
-    mongocxx::instance inst{};
-    mongocxx::client conn{mongocxx::uri{}};
-    auto db = conn["realty"];
-    std::cout << "connected\n";
-
-    realty::feed::parse_feed_file(
-      "test.xml", std::bind(realty::feed::parse_offer, _1, std::ref(db)));
+    realty::feed::parse_feed_file("test.xml", test_cb);
   }
   catch (const std::exception& e) {
     FAIL() << e.what();

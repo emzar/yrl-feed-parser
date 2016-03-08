@@ -1,0 +1,4 @@
+#!/bin/sh
+
+rm -f /etc/ld.so.conf.d/@PROJECT_NAME@-x86_64.conf
+/sbin/ldconfig
