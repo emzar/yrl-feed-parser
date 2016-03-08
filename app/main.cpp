@@ -34,7 +34,8 @@ int main(int, char**)
   mongocxx::instance inst{};
   mongocxx::client conn{mongocxx::uri{}};
   auto db = conn["realty"];
-  db["offers"].drop();
+  auto offers = db["offers"];
+  offers.drop();
 
   bsoncxx::builder::stream::document filter_builder;
   filter_builder << "$and"
@@ -50,13 +51,12 @@ int main(int, char**)
   auto cursor = agents.find(filter_builder.view());
   std::vector<std::thread> workers;
   for (auto&& doc : cursor) {
-    //std::cout << bsoncxx::to_json(doc) << std::endl;
     auto identifier = get_str_value(doc, "identifier");
     auto download_filename = "/tmp/agency_" + identifier;
     auto feed_url = get_str_value(doc, "feed_url");
     workers.push_back(std::thread(
       realty::feed::parse_feed_url, std::move(feed_url), std::move(identifier),
-      std::bind(realty::feed::parse_offer, _1, std::ref(db))));
+      std::bind(realty::feed::parse_offer, _1, std::ref(offers))));
   }
 
   for (auto& worker : workers) {

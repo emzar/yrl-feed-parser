@@ -10,8 +10,7 @@
 namespace realty {
 namespace feed {
 
-void parse_offer(
-  offer_node&& offer, mongocxx::database& db);
+void parse_offer(offer_node&& offer, mongocxx::collection& collection);
 
 } // namespace feed
 } // namespace realty

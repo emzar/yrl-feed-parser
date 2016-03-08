@@ -58,14 +58,14 @@ void parse_offer(offer_node& node, document& doc_stream)
 
 std::mutex mtx;
 
-void parse_offer(offer_node&& offer, mongocxx::database& db)
+void parse_offer(offer_node&& offer, mongocxx::collection& collection)
 {
   document doc_stream = document{};
   parse_offer(offer, doc_stream);
   bsoncxx::document::value offer_doc = doc_stream << finalize;
   try {
     std::lock_guard<std::mutex> lck (mtx);
-    auto res = db["offers"].insert_one(std::move(offer_doc));
+    collection.insert_one(std::move(offer_doc));
   }
   catch (const std::exception& e) {
     std::cout << e.what() << std::endl;
