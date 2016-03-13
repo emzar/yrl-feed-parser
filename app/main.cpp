@@ -52,6 +52,10 @@ int main(int argc, char** argv)
       if (std::getline(is_line, value)) settings[key] = value;
     }
   }
+  if (settings["storage"].empty()) {
+    std::cerr << "invalid storage path\n";
+    return 1;
+  }
 
   for (auto& setting : settings) {
     std::cout << setting.first << ": " << setting.second << std::endl;
@@ -64,7 +68,12 @@ int main(int argc, char** argv)
   std::cout << "connected\n";
   auto db = conn["realty"];
   auto offers = db["offers"];
-  offers.drop();
+  try {
+    offers.drop();
+  }
+  catch (const std::exception& e) {
+    std::cout << "there is no offers collection\n";
+  }
 
   bsoncxx::builder::stream::document filter_builder;
   filter_builder << "$and"
@@ -85,7 +94,7 @@ int main(int argc, char** argv)
     auto feed_url = get_str_value(doc, "feed_url");
     workers.push_back(std::thread(
       realty::feed::parse_feed_url, std::move(feed_url), std::move(identifier),
-      std::bind(realty::feed::parse_offer, _1, std::ref(offers))));
+      settings["storage"], std::bind(realty::feed::parse_offer, _1, std::ref(offers))));
   }
 
   for (auto& worker : workers) {
