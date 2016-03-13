@@ -7,6 +7,7 @@
 #include <mongocxx/instance.hpp>
 #include <thread>
 #include <vector>
+#include <fstream>
 
 #include "feed/feed.h"
 #include "feed/offer_parser.h"
@@ -29,10 +30,38 @@ std::string get_str_value(
   return value;
 }
 
-int main(int, char**)
+int main(int argc, char** argv)
 {
+  if (argc != 2) {
+    std::cerr << "invalid config file name\n";
+    return 1;
+  }
+  std::string config_filename = argv[1];
+  std::cout << "config_filename: " << config_filename << std::endl;
+  std::ifstream ifs(config_filename);
+
+  typedef std::map<std::string, std::string> ConfigInfo;
+  ConfigInfo settings;
+  std::string line;
+  while (std::getline(ifs, line)) {
+    std::istringstream is_line(line);
+    std::string key;
+    if (std::getline(is_line, key, '=')) {
+      std::string value;
+      if (key[0] == '#') continue;
+      if (std::getline(is_line, value)) settings[key] = value;
+    }
+  }
+
+  for (auto& setting : settings) {
+    std::cout << setting.first << ": " << setting.second << std::endl;
+  }
+
+  auto conn_str = "mongodb://" + settings["host"] + ":" + settings["port"];
+
   mongocxx::instance inst{};
-  mongocxx::client conn{mongocxx::uri{}};
+  mongocxx::client conn{mongocxx::uri{conn_str}};
+  std::cout << "connected\n";
   auto db = conn["realty"];
   auto offers = db["offers"];
   offers.drop();
