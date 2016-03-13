@@ -1,7 +1,6 @@
 #include "parser.h"
 
 #include <algorithm>
-#include <boost/lexical_cast.hpp>
 
 namespace realty {
 namespace feed {

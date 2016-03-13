@@ -37,16 +37,16 @@ std::string get_feed_path_postfix()
 }
 
 void parse_feed_url(
-  const std::string& url, const std::string& feed_id,
+  const std::string& url, const std::string& feed_id, const std::string& feed_name,
   const std::string& storage_path, fn_offer_callback&& offer_callback)
 {
-  std::string path = storage_path + "/feed/" + feed_id.substr(0, 2) + '/';
+  std::string path = storage_path + "/feed/" + feed_name.substr(0, 2) + '/';
   std::string cmd = "mkdir -p " + path;
   ::system(cmd.c_str());
-  std::string feed_filename = path + feed_id + get_feed_path_postfix();
+  std::string feed_filename = path + feed_name + get_feed_path_postfix();
   std::ofstream ofs(feed_filename);
 
-  realty::feed::parser parser(std::move(offer_callback), feed_id);
+  realty::feed::parser parser(std::move(offer_callback), std::move(feed_id));
   parser.set_substitute_entities(true);
 
   curl_user_data user_data;

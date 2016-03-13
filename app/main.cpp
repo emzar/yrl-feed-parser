@@ -89,12 +89,13 @@ int main(int argc, char** argv)
   auto cursor = agents.find(filter_builder.view());
   std::vector<std::thread> workers;
   for (auto&& doc : cursor) {
-    auto identifier = get_str_value(doc, "identifier");
-    auto download_filename = "/tmp/agency_" + identifier;
     auto feed_url = get_str_value(doc, "feed_url");
+    auto feed_id = get_str_value(doc, "_id");
+    auto feed_name = get_str_value(doc, "identifier");
     workers.push_back(std::thread(
-      realty::feed::parse_feed_url, std::move(feed_url), std::move(identifier),
-      settings["storage"], std::bind(realty::feed::parse_offer, _1, std::ref(offers))));
+      realty::feed::parse_feed_url, std::move(feed_url), std::move(feed_id),
+      std::move(feed_name), settings["storage"],
+      std::bind(realty::feed::parse_offer, _1, std::ref(offers))));
   }
 
   for (auto& worker : workers) {
