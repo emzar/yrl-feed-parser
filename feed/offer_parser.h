@@ -7,10 +7,23 @@
 #include <mongocxx/instance.hpp>
 #include <mongocxx/uri.hpp>
 
+#include <mutex>
+
 namespace realty {
 namespace feed {
 
-void parse_offer(offer_node&& offer, mongocxx::collection& collection);
+class offer_parser final
+{
+public:
+  offer_parser(mongocxx::collection& collection);
+  void parse(offer_node&& offer);
+  uint64_t count() const { return m_count; }
+
+private:
+  uint64_t m_count;
+  mongocxx::collection& m_collection;
+  std::mutex m_mutex;
+};
 
 } // namespace feed
 } // namespace realty

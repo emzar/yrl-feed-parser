@@ -89,6 +89,7 @@ int main(int argc, char** argv)
   auto cursor = agents.find(filter_builder.view());
   std::vector<std::thread> workers;
   std::cout << "Started feeds handling\n";
+  realty::feed::offer_parser op(offers);
   for (auto&& doc : cursor) {
     auto feed_url = get_str_value(doc, "feed_url");
     auto feed_id = get_str_value(doc, "_id");
@@ -96,12 +97,11 @@ int main(int argc, char** argv)
     workers.push_back(std::thread(
       realty::feed::parse_feed_url, std::move(feed_url), std::move(feed_id),
       std::move(feed_name), settings["storage"],
-      std::bind(realty::feed::parse_offer, _1, std::ref(offers))));
+      std::bind(&realty::feed::offer_parser::parse, &op, _1)));
   }
-
   for (auto& worker : workers) {
     worker.join();
   }
-
+  std::cout << "Finished, handled " << op.count() << " offers\n";
   return 0;
 }

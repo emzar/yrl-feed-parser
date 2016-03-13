@@ -7,8 +7,6 @@
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/types.hpp>
 
-#include <mutex>
-
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
 
@@ -56,21 +54,24 @@ void parse_offer(offer_node& node, document& doc_stream)
 
 } // anonymous namespace
 
-std::mutex mtx;
-static uint64_t count = 0;
+offer_parser::offer_parser(mongocxx::collection& collection)
+  : m_count(0), m_collection(collection)
+{
+  // Empty
+}
 
-void parse_offer(offer_node&& offer, mongocxx::collection& collection)
+void offer_parser::parse(offer_node&& offer)
 {
   document doc_stream = document{};
   parse_offer(offer, doc_stream);
   bsoncxx::document::value offer_doc = doc_stream << finalize;
   try {
-    std::lock_guard<std::mutex> lck (mtx);
-    collection.insert_one(std::move(offer_doc));
-    if (((count % 10000) == 0) && (count != 0)) {
-      std::cout << "Handeled " << count << " offers\n";
+    std::lock_guard<std::mutex> lck (m_mutex);
+    m_collection.insert_one(std::move(offer_doc));
+    if (((m_count % 10000) == 0) && (m_count != 0)) {
+      std::cout << "Handeled " << m_count << " offers\n";
     }
-    count++;
+    m_count++;
   }
   catch (const std::exception& e) {
     std::cout << e.what() << std::endl;
