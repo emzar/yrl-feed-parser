@@ -32,15 +32,27 @@ bool try_add(const std::string& name, offer_node& node, document& doc_stream)
   return true;
 }
 
-void parse_offer(offer_node& node, document& doc_stream)
+void parse_offer(
+  offer_node& node, document& doc_stream, bool only_sales, bool only_flats)
 {
   std::string name = node.name().raw();
   std::replace(name.begin(), name.end(), '-', '_');
 
+  // ignore non-sales
+  if (only_sales && (node.name() == "type") && (node.data() != "продажа")) {
+    throw std::runtime_error("invalid type: " + node.data());
+  }
+
+  // ignore non-flats
+  if (only_flats && (node.name() == "category") && (node.data() != "квартира") &&
+    (node.parent() != nullptr) && (node.parent()->name() == "offer")) {
+    throw std::runtime_error("invalid category: " + node.data());
+  }
+
   if (node.has_children()) {
     if (node.name() != "offer") doc_stream << name << open_document;
     for (offer_children_type::const_reference child : node.children()) {
-      parse_offer(*child, doc_stream);
+      parse_offer(*child, doc_stream, only_sales, only_flats);
     }
     if (node.name() != "offer") doc_stream << close_document;
     return;
@@ -54,20 +66,30 @@ void parse_offer(offer_node& node, document& doc_stream)
 
 } // anonymous namespace
 
-offer_parser::offer_parser(mongocxx::collection& collection)
-  : m_count(0), m_collection(collection)
+bsoncxx::document::value bson_from_offer(
+  offer_node&& offer, bool only_sales, bool only_flats)
+{
+  document doc_stream = document{};
+  parse_offer(offer, doc_stream, only_sales, only_flats);
+  return (doc_stream << finalize);
+}
+
+offer_parser::offer_parser(
+  mongocxx::collection& collection, bool only_sales, bool only_flats)
+  : m_count(0),
+    m_collection(collection),
+    m_only_sales(only_sales),
+    m_only_flats(only_flats)
 {
   // Empty
 }
 
 void offer_parser::parse(offer_node&& offer)
 {
-  document doc_stream = document{};
-  parse_offer(offer, doc_stream);
-  bsoncxx::document::value offer_doc = doc_stream << finalize;
   try {
-    std::lock_guard<std::mutex> lck (m_mutex);
-    m_collection.insert_one(std::move(offer_doc));
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_collection.insert_one(
+      std::move(bson_from_offer(std::move(offer), m_only_sales, m_only_flats)));
     if (((m_count % 10000) == 0) && (m_count != 0)) {
       std::cout << "Handeled " << m_count << " offers\n";
     }

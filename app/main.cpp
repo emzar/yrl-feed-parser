@@ -37,7 +37,6 @@ int main(int argc, char** argv)
     return 1;
   }
   std::string config_filename = argv[1];
-  std::cout << "config_filename: " << config_filename << std::endl;
   std::ifstream ifs(config_filename);
 
   typedef std::map<std::string, std::string> ConfigInfo;
@@ -65,14 +64,13 @@ int main(int argc, char** argv)
 
   mongocxx::instance inst{};
   mongocxx::client conn{mongocxx::uri{conn_str}};
-  std::cout << "connected\n";
   auto db = conn["realty"];
   auto offers = db["offers"];
   try {
     offers.drop();
   }
   catch (const std::exception& e) {
-    std::cout << "there is no offers collection\n";
+    std::cout << "Nothing to drop: there is no offers collection\n";
   }
 
   bsoncxx::builder::stream::document filter_builder;
@@ -84,12 +82,18 @@ int main(int argc, char** argv)
     << open_document << "ignore_feed" << false << close_document
     << close_array;
 
+  bool only_sales = true;
+  if (settings["only_sales"] == "false") only_sales = false;
+
+  bool only_flats = true;
+  if (settings["only_flats"] == "false") only_flats = false;
+
   curl_global_init(CURL_GLOBAL_ALL);
   auto agents = db["agents"];
   auto cursor = agents.find(filter_builder.view());
   std::vector<std::thread> workers;
   std::cout << "Started feeds handling\n";
-  realty::feed::offer_parser op(offers);
+  realty::feed::offer_parser op(offers, only_sales, only_flats);
   for (auto&& doc : cursor) {
     auto feed_url = get_str_value(doc, "feed_url");
     auto feed_id = get_str_value(doc, "_id");
