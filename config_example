@@ -1,0 +1,6 @@
+host=localhost
+port=27017
+storage=/home/ivan/projects/storage
+# ignored_setting=blah-blah-blah
+only_sales=true
+# only_flats=false

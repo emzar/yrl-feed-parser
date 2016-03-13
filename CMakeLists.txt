@@ -23,4 +23,6 @@ set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${PROJECT_BINARY_DIR}/postinst;${CMAKE_C
 add_subdirectory(feed)
 add_subdirectory(app)
 
+install(FILES config_example DESTINATION etc)
+
 include(CPack)
