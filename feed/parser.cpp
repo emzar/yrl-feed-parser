@@ -1,6 +1,7 @@
 #include "parser.h"
 
 #include <algorithm>
+#include <ctime>
 
 namespace realty {
 namespace feed {
@@ -25,6 +26,13 @@ void parser::on_start_element(
       add_offer_child(attr->name, attr->value);
     }
     add_offer_child("feed_id", m_feed_id);
+
+    time_t t = time(0);
+    struct tm* now = localtime(&t);
+    char buf[1024];
+    strftime(buf, sizeof(buf), "%FT%T%z", now);
+    add_offer_child("last_modified", buf);
+
     m_current_offer_node = m_offer_root;
   }
   else if (m_current_offer_node != nullptr) {
