@@ -22,17 +22,9 @@ void parser::on_start_element(
       [](AttributeList::const_reference attr)
       { return (attr.name == "internal-id");});
     if (attr != attributes.end()) {
-      offer_node_ptr internal_id = std::make_shared<offer_node>();
-      internal_id->name(attr->name);
-      internal_id->data(attr->value);
-      m_offer_root->add_child(internal_id);
+      add_offer_child(attr->name, attr->value);
     }
-
-    offer_node_ptr feed_id = std::make_shared<offer_node>();
-    feed_id->name("feed_id");
-    feed_id->data(Glib::ustring(m_feed_id));
-    m_offer_root->add_child(feed_id);
-
+    add_offer_child("feed_id", m_feed_id);
     m_current_offer_node = m_offer_root;
   }
   else if (m_current_offer_node != nullptr) {
@@ -60,6 +52,15 @@ void parser::on_characters(const Glib::ustring& text)
     && (m_current_offer_node->name() != "offer")) {
     m_current_offer_node->data(text);
   }
+}
+
+void parser::add_offer_child(
+  const Glib::ustring& name, const Glib::ustring& data)
+{
+  offer_node_ptr child = std::make_shared<offer_node>();
+  child->name(name);
+  child->data(data);
+  m_offer_root->add_child(child);
 }
 
 } // namespace feed

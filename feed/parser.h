@@ -29,6 +29,8 @@ protected:
   void on_fatal_error(const Glib::ustring& text) override {}
 
 private:
+  void add_offer_child(const Glib::ustring& name, const Glib::ustring& data);
+
   offer_node_ptr m_offer_root;
   offer_node_ptr m_current_offer_node;
   fn_offer_callback m_offer_callback;
