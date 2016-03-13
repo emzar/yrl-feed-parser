@@ -88,6 +88,7 @@ int main(int argc, char** argv)
   auto agents = db["agents"];
   auto cursor = agents.find(filter_builder.view());
   std::vector<std::thread> workers;
+  std::cout << "Started feeds handling\n";
   for (auto&& doc : cursor) {
     auto feed_url = get_str_value(doc, "feed_url");
     auto feed_id = get_str_value(doc, "_id");

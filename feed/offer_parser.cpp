@@ -57,6 +57,7 @@ void parse_offer(offer_node& node, document& doc_stream)
 } // anonymous namespace
 
 std::mutex mtx;
+static uint64_t count = 0;
 
 void parse_offer(offer_node&& offer, mongocxx::collection& collection)
 {
@@ -66,6 +67,10 @@ void parse_offer(offer_node&& offer, mongocxx::collection& collection)
   try {
     std::lock_guard<std::mutex> lck (mtx);
     collection.insert_one(std::move(offer_doc));
+    if (((count % 10000) == 0) && (count != 0)) {
+      std::cout << "Handeled " << count << " offers\n";
+    }
+    count++;
   }
   catch (const std::exception& e) {
     std::cout << e.what() << std::endl;
