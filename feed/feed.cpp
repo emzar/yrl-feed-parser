@@ -32,7 +32,7 @@ std::string get_feed_path_postfix()
   time_t t = time(0);
   struct tm* now = localtime(&t);
   char buf[32];
-  strftime(buf, sizeof(buf), "_feed_%Y_%m_%d", now);
+  strftime(buf, sizeof(buf), "_feed_%Y_%m_%d_%H", now);
   return buf;
 }
 
