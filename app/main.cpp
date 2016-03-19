@@ -98,7 +98,7 @@ int main(int argc, char** argv)
     auto feed_url = get_str_value(doc, "feed_url");
     auto feed_id = bsoncxx::to_json(doc["_id"].get_value());
     auto feed_name = get_str_value(doc, "identifier");
-    std::cout << "Parsing feed from " << feed_name << " id: " << feed_id;
+    std::cout << "Parsing feed from " << feed_name << " id: " << feed_id << std::endl;
     workers.push_back(std::thread(
       realty::feed::parse_feed_url, std::move(feed_url), std::move(feed_id),
       std::move(feed_name), settings["storage"],
