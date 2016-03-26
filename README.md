@@ -20,3 +20,11 @@
  - **storage**: path to storage
  - **only_sales**: флаг, требующий обрабатывать только офферы с типом "продажа";
  - **only_flats**: флаг, требующий обрабатывать только офферы с категорией "квартира".
+
+# Build
+Install following packages for building project:
+- **libxml2-dev**
+- **libsigc++-2.0-dev**
+- **libglibmm-2.4-dev**
+- **libxml++2.6-dev**
+- **libgtest-dev**
