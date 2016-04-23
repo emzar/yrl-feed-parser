@@ -35,6 +35,7 @@ private:
   offer_node_ptr m_current_offer_node;
   fn_offer_callback m_offer_callback;
   std::string m_feed_id;
+  bool m_has_image;
 };
 
 } // namespace feed

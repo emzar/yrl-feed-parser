@@ -7,7 +7,8 @@ namespace realty {
 namespace feed {
 
 parser::parser(fn_offer_callback&& offer_callback, const std::string& feed_id)
-  : xmlpp::SaxParser(), m_offer_callback(offer_callback), m_feed_id(feed_id)
+  : xmlpp::SaxParser(), m_offer_callback(offer_callback), m_feed_id(feed_id),
+    m_has_image(false)
 {
   std::locale::global(std::locale(""));
 }
@@ -36,6 +37,9 @@ void parser::on_start_element(
     m_current_offer_node = m_offer_root;
   }
   else if (m_current_offer_node != nullptr) {
+    if ((name == "image") && m_has_image) return;
+    m_has_image = (name == "image");
+
     offer_node_ptr new_node = std::make_shared<offer_node>();
     new_node->name(name);
     m_current_offer_node->add_child(new_node);
