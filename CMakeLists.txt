@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.2)
 
-project(yrl VERSION 0.0.3 LANGUAGES CXX)
+project(yrl VERSION 0.0.4 LANGUAGES CXX)
 
 set(BUILD_SHARED_LIBS ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
