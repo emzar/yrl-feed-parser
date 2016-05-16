@@ -39,10 +39,7 @@ void parser::on_start_element(
     m_current_offer_node = m_offer_root;
   }
   else if (m_current_offer_node != nullptr) {
-    std::cout << "\non_start_element1: " << name << "  " << m_has_image << std::endl;
     if ((name == "image") && m_has_image) return;
-    std::cout << "on_start_element2: " << name << "  " << m_has_image << std::endl;
-
     offer_node_ptr new_node = std::make_shared<offer_node>();
     new_node->name(name);
     m_current_offer_node->add_child(new_node);
@@ -58,15 +55,10 @@ void parser::on_end_element(const Glib::ustring& name)
     m_has_image = false;
   }
   else if (m_current_offer_node != nullptr) {
-    if ((name == "image") && m_has_image) return;
-    std::cout << "on_end_element1: " << name << "  " << m_has_image << std::endl;
-    if ((name == "image") && !m_has_image) {
-      std::cout << "on_end_element2: " << name << "  " << m_has_image << std::endl;
-      m_has_image = true;
-      m_current_offer_node = m_current_offer_node->parent();
-      return;
+    if (name == "image") {
+      if (m_has_image) return;
+      m_has_image = (name == "image");
     }
-    if ((name == "image") && m_has_image) return;
     m_current_offer_node = m_current_offer_node->parent();
   }
 }
