@@ -22,7 +22,6 @@ TEST(feed_test, parse_file)
 {
   try {
     realty::feed::parse_feed_file("test.xml", test_cb);
-    FAIL();
   }
   catch (const std::exception& e) {
     FAIL() << e.what();
