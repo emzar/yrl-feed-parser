@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <ctime>
 
-#include <iostream>
-
 namespace realty {
 namespace feed {
 
